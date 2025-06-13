@@ -44,9 +44,6 @@ public class AccountsServiceImpl implements IAccountsService {
                     + customer.getMobileNumber());
         }
 
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy("Anonymous");
-
         Customer savedCustomer = customerRepository.save(customer);
         accountsRepository.save(createNewAccount(savedCustomer));
     }
@@ -59,9 +56,6 @@ public class AccountsServiceImpl implements IAccountsService {
         accounts.setAccountNumber(randomNo);
         accounts.setAccountType(AccountsConstants.SAVINGS);
         accounts.setBranchAddress(AccountsConstants.ADDRESS);
-
-        accounts.setCreatedAt(LocalDateTime.now());
-        accounts.setCreatedBy("Anonymous");
 
         return accounts;
     }
