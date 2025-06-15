@@ -20,7 +20,7 @@ public class CardsDto {
     private String mobileNumber;
 
     @Schema(
-            description = "Card Number of Eazy Bank Card", example = "2000 2423 2423 2423"
+            description = "Card Number of Eazy Bank Card", example = "2000242324232423"
     )
     @NotEmpty(message = "Card Number cannot be empty")
     private String cardNumber;
@@ -32,7 +32,7 @@ public class CardsDto {
     private String cardType;
 
     @Schema(
-            description = "Total Limit of Eazy Bank Card", example = "2000"
+            description = "Total Limit of Eazy Bank Card", example = "4000"
     )
     @NotEmpty(message = "Total Limit cannot be empty")
     @Pattern(regexp = "(^$|[0-9]{4})", message = "Total Limit must be 4 digits")

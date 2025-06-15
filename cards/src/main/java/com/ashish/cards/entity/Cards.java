@@ -10,7 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cards {
+public class Cards extends BaseEntity {
 
     @Id
     @Column(name = "card_id")
