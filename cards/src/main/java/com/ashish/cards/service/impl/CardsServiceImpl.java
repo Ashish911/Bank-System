@@ -1,5 +1,6 @@
 package com.ashish.cards.service.impl;
 
+import com.ashish.cards.constants.CardsConstants;
 import com.ashish.cards.dto.CardsDto;
 import com.ashish.cards.entity.Cards;
 import com.ashish.cards.exception.CardAlreadyExistsException;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.smartcardio.Card;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class CardsServiceImpl implements ICardsService {
@@ -21,25 +23,28 @@ public class CardsServiceImpl implements ICardsService {
 
     @Override
     public void createCard(String mobileNumber) {
-        CardsDto cardsDto = new CardsDto();
-
-        cardsDto.setMobileNumber(mobileNumber);
-        cardsDto.setCardNumber("1234567890123456");
-        cardsDto.setCardType("Credit");
-        cardsDto.setTotalLimit(10000L);
-        cardsDto.setAmountUsed(0L);
-        cardsDto.setAvailableAmount(10000L);
-
-        Cards cards = CardsMapper.mapToCards(cardsDto, new Cards());
-
-        Optional<Cards> optionalCards = cardsRepository.findByMobileNumber(cardsDto.getMobileNumber());
+        Optional<Cards> optionalCards = cardsRepository.findByMobileNumber(mobileNumber);
 
         if (optionalCards.isPresent()) {
             throw new CardAlreadyExistsException("Card already registered with mobile number "
-                    + cardsDto.getMobileNumber());
+                    + mobileNumber);
         }
 
-        cardsRepository.save(cards);
+        cardsRepository.save(createNewCard(mobileNumber));
+    }
+
+    private Cards createNewCard(String mobileNumber) {
+        Cards cards = new Cards();
+        cards.setMobileNumber(mobileNumber);
+
+        long randomCardNumber = 100000000000L + new Random().nextInt(900000000);
+        cards.setCardNumber(Long.toString(randomCardNumber));
+        cards.setCardType(CardsConstants.CREDIT_CARD);
+        cards.setTotalLimit(CardsConstants.NEW_CARD_LIMIT);
+        cards.setAmountUsed(0);
+        cards.setAvailableAmount(CardsConstants.NEW_CARD_LIMIT);
+
+        return cards;
     }
 
     @Override
@@ -57,8 +62,8 @@ public class CardsServiceImpl implements ICardsService {
     public boolean updateCard(CardsDto dto) {
         boolean isUpdated = false;
 
-        Cards cards = cardsRepository.findByMobileNumber(dto.getMobileNumber()).orElseThrow(
-                () -> new ResourceNotFoundException("Card", "mobileNumber", dto.getMobileNumber())
+        Cards cards = cardsRepository.findByCardNumber(dto.getCardNumber()).orElseThrow(
+                () -> new ResourceNotFoundException("Card", "mobileNumber", dto.getCardNumber())
         );
 
         CardsMapper.mapToCards(dto, cards);

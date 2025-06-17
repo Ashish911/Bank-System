@@ -1,10 +1,7 @@
 package com.ashish.cards.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -22,9 +19,10 @@ public class CardsDto {
     private String mobileNumber;
 
     @Schema(
-            description = "Card Number of Eazy Bank Card", example = "2000242324232423"
+            description = "Card Number of Eazy Bank Card", example = "100646930341"
     )
     @NotEmpty(message = "Card Number cannot be empty")
+    @Pattern(regexp="(^$|[0-9]{12})",message = "CardNumber must be 12 digits")
     private String cardNumber;
 
     @Schema(
@@ -37,21 +35,21 @@ public class CardsDto {
             description = "Total Limit of Eazy Bank Card", example = "4000"
     )
     @NotNull(message = "Total Limit cannot be null")
-    @Min(value = 1, message = "Amount used should be greater than zero")
-    private Long totalLimit;
+    @Positive(message = "Amount used should be greater than zero")
+    private int totalLimit;
 
     @Schema(
             description = "Amount Used of Eazy Bank Card", example = "200"
     )
     @NotNull(message = "Amount Used cannot be null")
     @Min(value = 0, message = "Amount used should be equal or greater than zero")
-    private Long amountUsed;
+    private int amountUsed;
 
     @Schema(
             description = "Amount available of Eazy Bank Card", example = "3800"
     )
     @NotNull(message = "Amount Available Limit cannot be null")
-    @Min(value = 0, message = "Amount used should be equal or greater than zero")
-    private Long availableAmount;
+    @PositiveOrZero( message = "Amount used should be equal or greater than zero")
+    private int availableAmount;
 
 }

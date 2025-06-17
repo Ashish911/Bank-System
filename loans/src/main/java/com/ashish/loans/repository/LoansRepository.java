@@ -14,4 +14,6 @@ public interface LoansRepository extends JpaRepository<Loans, Long> {
      * @return an {@link Optional} containing the {@link Loans} entity, or an empty {@link Optional} if no such entity exists
      */
     Optional<Loans> findByMobileNumber(String mobileNumber);
+
+    Optional<Loans> findByLoanNumber(String loanNumber);
 }

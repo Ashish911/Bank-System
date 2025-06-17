@@ -28,12 +28,12 @@ public class Cards extends BaseEntity {
     private String cardType;
 
     @Column(name = "total_limit")
-    private Long totalLimit;
+    private int totalLimit;
 
     @Column(name = "amount_used")
-    private Long amountUsed;
+    private int amountUsed;
 
     @Column(name = "available_amount")
-    private Long availableAmount;
+    private int availableAmount;
 
 }

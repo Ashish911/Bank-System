@@ -17,5 +17,13 @@ public interface CardsRepository extends JpaRepository<Cards, Long> {
      */
     Optional<Cards> findByMobileNumber(String mobileNumber);
 
+    /**
+     * Finds a {@link Cards} entity by the given card number.
+     *
+     * @param cardNumber the card number to search for
+     * @return an {@link Optional} containing the {@link Cards} entity, or an empty {@link Optional} if no such entity exists
+     */
+    Optional<Cards> findByCardNumber(String cardNumber);
+
 
 }

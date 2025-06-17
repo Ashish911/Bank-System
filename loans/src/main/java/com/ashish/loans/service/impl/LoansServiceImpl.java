@@ -1,5 +1,6 @@
 package com.ashish.loans.service.impl;
 
+import com.ashish.loans.constants.LoansConstants;
 import com.ashish.loans.dto.LoansDto;
 import com.ashish.loans.entity.Loans;
 import com.ashish.loans.exception.LoanAlreadyExistsException;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class LoansServiceImpl implements ILoansService {
@@ -20,25 +22,27 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public void createLoan(String mobileNumber) {
-        LoansDto loansDto = new LoansDto();
 
-        loansDto.setMobileNumber(mobileNumber);
-        loansDto.setLoanNumber("10071469799154");
-        loansDto.setLoanType("Credit");
-        loansDto.setTotalLoan(-10000L);
-        loansDto.setAmountPaid(-2000L);
-        loansDto.setOutstandingAmount(-1000L);
-
-        Loans loans = LoanMapper.mapToLoans(loansDto, new Loans());
-
-        Optional<Loans> optionalCards = loansRepository.findByMobileNumber(loansDto.getMobileNumber());
+        Optional<Loans> optionalCards = loansRepository.findByMobileNumber(mobileNumber);
 
         if (optionalCards.isPresent()) {
             throw new LoanAlreadyExistsException("Card already registered with mobile number "
-                    + loansDto.getMobileNumber());
+                    + mobileNumber);
         }
 
-        loansRepository.save(loans);
+        loansRepository.save(createNewLoan(mobileNumber));
+    }
+
+    private Loans createNewLoan(String mobileNumber) {
+        Loans newLoan = new Loans();
+        long randomLoanNumber = 100000000000L + new Random().nextInt(900000000);
+        newLoan.setLoanNumber(Long.toString(randomLoanNumber));
+        newLoan.setMobileNumber(mobileNumber);
+        newLoan.setLoanType(LoansConstants.HOME_LOAN);
+        newLoan.setTotalLoan(LoansConstants.NEW_LOAN_LIMIT);
+        newLoan.setAmountPaid(0);
+        newLoan.setOutstandingAmount(LoansConstants.NEW_LOAN_LIMIT);
+        return newLoan;
     }
 
     @Override
@@ -56,8 +60,8 @@ public class LoansServiceImpl implements ILoansService {
     public boolean updateLoan(LoansDto dto) {
         boolean isUpdated = false;
 
-        Loans loan = loansRepository.findByMobileNumber(dto.getMobileNumber()).orElseThrow(
-                () -> new ResourceNotFoundException("Loan", "mobileNumber", dto.getMobileNumber())
+        Loans loan = loansRepository.findByLoanNumber(dto.getLoanNumber()).orElseThrow(
+                () -> new ResourceNotFoundException("Loan", "mobileNumber", dto.getLoanNumber())
         );
 
         LoanMapper.mapToLoans(dto, loan);

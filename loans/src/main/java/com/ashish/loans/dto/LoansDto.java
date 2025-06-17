@@ -35,21 +35,21 @@ public class LoansDto {
             description = "Total Loan of Eazy Bank Card", example = "4000"
     )
     @NotNull(message = "Total Loan cannot be null")
-    @Max(value = 0, message = "Amount used should be less than zero")
-    private Long totalLoan;
+    @Positive(message = "Total loan amount should be greater than zero")
+    private int totalLoan;
 
     @Schema(
             description = "Amount Used of Eazy Bank Card", example = "200"
     )
     @NotNull(message = "Amount Used cannot be null")
-    @Max(value = 0, message = "Amount used should be less than zero")
-    private Long amountPaid;
+    @PositiveOrZero(message = "Total loan amount paid should be equal or greater than zero")
+    private int amountPaid;
 
     @Schema(
             description = "Amount available of Eazy Bank Card", example = "3800"
     )
     @NotNull(message = "Amount Available Limit cannot be null")
-    @Max(value = 0, message = "Amount used should be less than zero")
-    private Long outstandingAmount;
+    @PositiveOrZero(message = "Total outstanding amount should be equal or greater than zero")
+    private int outstandingAmount;
 
 }
