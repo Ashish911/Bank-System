@@ -5,9 +5,9 @@ import com.ashish.cards.dto.CardsDto;
 public interface ICardsService {
 
     /**
-     * @param dto - CardsDto Object
+     * @param mobileNumber - String number.
      */
-    void createCard(CardsDto dto);
+    void createCard(String mobileNumber);
 
     /**
      * @param mobileNumber - mobile number of customer.

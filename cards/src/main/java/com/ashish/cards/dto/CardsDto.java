@@ -1,7 +1,9 @@
 package com.ashish.cards.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -34,22 +36,22 @@ public class CardsDto {
     @Schema(
             description = "Total Limit of Eazy Bank Card", example = "4000"
     )
-    @NotEmpty(message = "Total Limit cannot be empty")
-    @Pattern(regexp = "(^$|[0-9]{4})", message = "Total Limit must be 4 digits")
+    @NotNull(message = "Total Limit cannot be null")
+    @Min(value = 1, message = "Total Limit must be 4 digits")
     private Long totalLimit;
 
     @Schema(
             description = "Amount Used of Eazy Bank Card", example = "200"
     )
-    @NotEmpty(message = "Amount Used cannot be empty")
-    @Pattern(regexp = "(^$|[0-9]{4})", message = "Total Limit must be 4 digits")
+    @NotNull(message = "Amount Used cannot be null")
+    @Min(value = 0, message = "Total Limit must be 4 digits")
     private Long amountUsed;
 
     @Schema(
             description = "Amount available of Eazy Bank Card", example = "3800"
     )
-    @NotEmpty(message = "Amount Available Limit cannot be empty")
-    @Pattern(regexp = "(^$|[0-9]{4})", message = "Total Limit must be 4 digits")
+    @NotNull(message = "Amount Available Limit cannot be null")
+    @Min(value = 0, message = "Total Limit must be 4 digits")
     private Long availableAmount;
 
 }
