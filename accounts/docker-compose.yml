@@ -11,7 +11,7 @@ services:
     networks:
       - eazybank
   loans:
-    image: "ashish/loans:loans"
+    image: loans-service
     container_name: loans-ms
     ports:
       - "8041:8041"

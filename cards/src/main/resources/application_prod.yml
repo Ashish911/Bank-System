@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "1.0"
+
+cards:
+  message: "Welcome to Cards Service"
+  contactDetails:
+    name: "Ashish Dongol Product Owner"
+    email: "ashishDongol32@gmailcom"
+  onCallSupport:
+    - 20202020202
+    - 34782734939

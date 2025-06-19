@@ -1,9 +1,9 @@
 server:
-  port: 8090
+    port: 8080
 
 spring:
   datasource:
-    url: jdbc:h2:mem:testLoans
+    url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
     password: ''
@@ -26,8 +26,8 @@ spring:
 build:
   version: "3.0"
 
-loans:
-  message: "Welcome to Loans Service"
+accounts:
+  message: "Welcome to Accounts Service"
   contactDetails:
     name: "Ashish Dongol Developer"
     email: "ashishDongol32@gmailcom"

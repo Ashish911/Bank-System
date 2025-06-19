@@ -1,6 +1,7 @@
 package com.ashish.accounts.controller;
 
 import com.ashish.accounts.constants.AccountsConstants;
+import com.ashish.accounts.dto.AccountsContactInfoDto;
 import com.ashish.accounts.dto.CustomerDto;
 import com.ashish.accounts.dto.ErrorResponseDto;
 import com.ashish.accounts.dto.ResponseDto;
@@ -15,6 +16,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +29,24 @@ import org.springframework.web.bind.annotation.*;
         description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH and DELETE Accounts details"
 )
 @RestController
-@AllArgsConstructor
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated
 public class AccountsController {
 
+    private final IAccountsService accountsService;
+
+    public AccountsController(IAccountsService accountsService) {
+        this.accountsService = accountsService;
+    }
+
+    @Value("${build.version}")
+    private String buildVersion;
+
     @Autowired
-    private IAccountsService accountsService;
+    private Environment environment;
+
+    @Autowired
+    private AccountsContactInfoDto accountsContactInfoDto;
 
     @Operation(
             summary = "Create Account REST API",
@@ -166,5 +180,89 @@ public class AccountsController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(AccountsConstants.STATUS_417, AccountsConstants.MESSAGE_417_DELETE));
         }
+    }
+
+    @Operation(
+            summary = "Get Build Information",
+            description = "REST API to get build information"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping("/build-info")
+    public ResponseEntity<String> getBuildInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(buildVersion);
+    }
+
+    @Operation(
+            summary = "Get Java Version",
+            description = "REST API to get env information"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("java.version"));
+    }
+
+    @Operation(
+            summary = "Get Contact Information",
+            description = "REST API to get contact information"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "417",
+                    description = "Expectation Failed"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content(
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountsContactInfoDto);
     }
 }
