@@ -2,6 +2,10 @@ server:
   port: 8090
 
 spring:
+  application:
+    name: "loans"
+  profiles:
+    active: "prod"
   datasource:
     url: jdbc:h2:mem:testLoans
     driverClassName: org.h2.Driver
@@ -16,21 +20,15 @@ spring:
       ddl-auto: update
     show-sql: true
   config:
-    import:
-      - "application_qa.yml"
-      - "application_prod.yml"
-  profiles:
-    active:
-      - "qa"
+    import: "optional:configserver:http://localhost:8071/"
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 
-build:
-  version: "3.0"
-
-loans:
-  message: "Welcome to Loans Service"
-  contactDetails:
-    name: "Ashish Dongol Developer"
-    email: "ashishDongol32@gmailcom"
-  onCallSupport:
-    - 20202020202
-    - 34782734939
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

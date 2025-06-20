@@ -1,8 +1,3 @@
-spring:
-  config:
-    activate:
-      on-profile: "qa"
-
 build:
   version: "2.0"
 
@@ -10,7 +5,7 @@ loans:
   message: "Welcome to Loans Service"
   contactDetails:
     name: "Ashish Dongol Quality Assurance"
-    email: "ashishDongol32@gmailcom"
+    email: "{cipher}c44446e703da5b4d3a8313b799f65bdc5cefc9c6e48ec2c5b5e76410caf571c96f6c67f97cb724970ad4ee3fb1958bbf"
   onCallSupport:
     - 20202020202
     - 34782734939
