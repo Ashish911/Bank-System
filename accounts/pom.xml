@@ -126,7 +126,7 @@
 				<version>3.4.5</version>
 				<configuration>
 					<to>
-						<image>accounts-service</image>
+						<image>ashishdongol14/${project.artifactId}:s6</image>
 					</to>
 				</configuration>
 			</plugin>
