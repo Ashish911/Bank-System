@@ -11,7 +11,7 @@ spring:
 #    driverClassName: org.h2.Driver
 #    username: sa
 #    password: ''
-    url: jdbc:mysql://localhost:3309/cardsdb
+    url: ${MYSQL_HOST:jdbc:mysql://localhost:3308/loansdb}
     username: root
     password: root
 #  h2:
@@ -27,11 +27,11 @@ spring:
       mode: always
   config:
     import: "optional:configserver:http://localhost:8071/"
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: "guest"
-    password: "guest"
+#  rabbitmq:
+#    host: "localhost"
+#    port: 5672
+#    username: "guest"
+#    password: "guest"
 
 management:
   endpoints:
@@ -52,7 +52,7 @@ eureka:
     fetchRegistry: true
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:8070/eureka/
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8070/eureka}
 
 info:
   app:
