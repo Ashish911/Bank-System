@@ -139,7 +139,7 @@
 				<version>3.4.5</version>
 				<configuration>
 					<to>
-						<image>ashishdongol14/${project.artifactId}:s6</image>
+						<image>ashishdongol14/${project.artifactId}:s8</image>
 					</to>
 				</configuration>
 			</plugin>
