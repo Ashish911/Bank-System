@@ -11,9 +11,9 @@ spring:
 #    driverClassName: org.h2.Driver
 #    username: sa
 #    password: ''
-    url: ${MYSQL_HOST:jdbc:mysql://localhost:3307/accountsdb}
+    url: ${MYSQL_HOST:jdbc:mysql://localhost:3306/accountsdb}
     username: root
-    password: root
+    password: Hellgaze@123
 #  h2:
 #    console:
 #      enabled: true
@@ -38,6 +38,11 @@ management:
     web:
       exposure:
         include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint:
     shutdown:
       access: unrestricted
@@ -63,3 +68,9 @@ info:
       version: "1.0.0"
       number: "1"
       time: "2022-04-18T00:00:00+05:30"
+
+logging:
+  level:
+    com:
+      ashish:
+        accounts: DEBUG
