@@ -13,7 +13,7 @@ spring:
 #    password: ''
     url: ${MYSQL_HOST:jdbc:mysql://localhost:3306/loansdb}
     username: root
-    password: root
+    password: Hellgaze@123
 #  h2:
 #    console:
 #      enabled: true
