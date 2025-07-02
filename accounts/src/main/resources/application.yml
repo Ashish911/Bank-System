@@ -27,6 +27,10 @@ spring:
       mode: always
   config:
     import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
 #  rabbitmq:
 #    host: "localhost"
 #    port: 5672
@@ -46,6 +50,9 @@ management:
   endpoint:
     shutdown:
       access: unrestricted
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
@@ -74,3 +81,29 @@ logging:
     com:
       ashish:
         accounts: DEBUG
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 2
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10000
+  retry:
+    configs:
+      default:
+        maxAttempts: 3
+        waitDuration: 500
+        enableExponentialBackoff: true
+        ignoreExceptions:
+          - java.lang.NullPointerException
+        retryExceptions:
+          - java.lang.RuntimeException
+
+  ratelimiter:
+    configs:
+      default:
+        timeoutDuration: 1000
+        limitRefreshPeriod: 5000
+        limitForPeriod: 1

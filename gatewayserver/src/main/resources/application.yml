@@ -12,6 +12,12 @@ spring:
       httpclient:
         connect-timeout: 1000
         response-timeout: 2s
+  data:
+    redis:
+      connect-timeout: 2s
+      host: localhost
+      port: 6379
+      timeout: 1s
 
 management:
   endpoints:
@@ -31,12 +37,14 @@ info:
     description: "Eazy Bank Gateway Server Application"
     version: "1.0.0"
 
+# Configuration for Logging
 logging:
   level:
     com:
       ashish:
         gatewayserver: DEBUG
 
+# Configuration for Circuit Breaker
 resilience4j.circuitbreaker:
   configs:
     default:

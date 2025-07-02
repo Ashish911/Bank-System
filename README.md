@@ -16,3 +16,5 @@
 >docker compose up -d
 
 >docker compose down
+
+>docker run -p 6379:6379 --name eazyredis -d redis
