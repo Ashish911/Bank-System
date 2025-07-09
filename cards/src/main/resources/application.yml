@@ -12,8 +12,8 @@ spring:
 #    username: sa
 #    password: ''
     url: ${MYSQL_HOST:jdbc:mysql://localhost:3306/cardsdb}
-    username: root
-    password: Hellgaze@123
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:Hellgaze@123}
 #  h2:
 #    console:
 #      enabled: true
