@@ -46,9 +46,15 @@ management:
   endpoint:
     shutdown:
       access: unrestricted
-    info:
-      env:
+    health:
+      probes:
         enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 eureka:
   instance:

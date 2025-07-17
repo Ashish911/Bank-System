@@ -28,6 +28,9 @@ management:
     web:
       exposure:
         include: "*"
+      base-path: /actuator
+      path-mapping:
+        prometheus: prometheus
   health:
     readiness-state:
       enabled: true
@@ -37,6 +40,14 @@ management:
     health:
       probes:
         enabled: true
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    tags:
+      application: ${spring.application.name}
 
 encrypt:
   key: "45D81EC1EF61DF9AD8D3E5BB397F9"

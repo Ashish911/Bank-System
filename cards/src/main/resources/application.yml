@@ -27,6 +27,7 @@ spring:
       mode: always
   config:
     import: "optional:configserver:http://localhost:8071/"
+
 #  rabbitmq:
 #    host: "localhost"
 #    port: 5672
@@ -46,9 +47,15 @@ management:
   endpoint:
     shutdown:
       access: unrestricted
-    info:
-      env:
+    health:
+      probes:
         enabled: true
+  info:
+    env:
+      enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
 
 eureka:
   instance:
