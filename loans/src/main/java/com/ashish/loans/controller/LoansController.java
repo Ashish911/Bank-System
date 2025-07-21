@@ -105,9 +105,9 @@ public class LoansController {
                                                         @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits")
                                                         String mobileNumber) {
 
-        logger.debug("eazyBank-correlation-id found: {} ", correlationId);
+        logger.debug("fetchLoanDetails method start");
         LoansDto customerDto = loansService.fetchLoan(mobileNumber);
-
+        logger.debug("fetchLoanDetails method end");
         return ResponseEntity.status(HttpStatus.OK)
                 .body(customerDto);
     }

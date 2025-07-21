@@ -49,6 +49,8 @@ logging:
     com:
       ashish:
         gatewayserver: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 # Configuration for Circuit Breaker
 resilience4j.circuitbreaker:
