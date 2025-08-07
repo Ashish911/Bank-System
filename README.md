@@ -18,3 +18,6 @@
 >docker compose down
 
 >docker run -p 6379:6379 --name eazyredis -d redis
+
+[//]: # (This is for keycloak)
+>docker run -d -p 127.0.0.1:7080:8080 -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.3.2 start-dev
