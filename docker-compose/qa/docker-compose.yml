@@ -1,19 +1,19 @@
 services:
-#  rabbit:
-#    image: rabbitmq:3-management
-#    hostname: rabbitmq
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
-#    healthcheck:
-#      test: rabbitmq-diagnostics check_port_connectivity
-#      interval: 10s
-#      timeout: 5s
-#      retries: 10
-#      start_period: 5s
-#    extends:
-#      file: common-config.yml
-#      service: network-deploy-service
+  rabbit:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
   redis:
     image: redis
@@ -315,6 +315,8 @@ services:
     ports:
       - "8080:8080"
     depends_on:
+      rabbit:
+        condition: service_healthy
       configserver:
         condition: service_healthy
       accountsdb:
@@ -332,6 +334,7 @@ services:
       MYSQL_HOST: "jdbc:mysql://accountsdb:3306/accountsdb"
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "root"
+      OTEL_SERVICE_NAME: "accounts"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -359,6 +362,7 @@ services:
       MYSQL_HOST: "jdbc:mysql://loansdb:3306/loansdb"
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "root"
+      OTEL_SERVICE_NAME: "loans"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
@@ -386,9 +390,22 @@ services:
       MYSQL_HOST: "jdbc:mysql://cardsdb:3306/cardsdb"
       MYSQL_USER: "root"
       MYSQL_PASSWORD: "root"
+      OTEL_SERVICE_NAME: "cards"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
+
+  message:
+    image: "eazybytes/message:latest"
+    container_name: message-ms
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
   gatewayserver:
     image: "eazybytes/gatewayserver:latest"
@@ -410,6 +427,7 @@ services:
       SPRING_DATA_REDIS_HOST: redis
       SPRING_DATA_REDIS_PORT: 6379
       SPRING_DATA_REDIS_TIMEOUT: 1s
+      OTEL_SERVICE_NAME: "gatewayserver"
     extends:
       file: common-config.yml
       service: microservice-eureka-config
