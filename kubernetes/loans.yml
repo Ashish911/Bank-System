@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+apiVersion: apps/v2
 kind: Deployment
 metadata:
   name: loans-deployment
@@ -41,7 +41,7 @@ spec:
                   name: eazybank-configmap
                   key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
 ---
-apiVersion: v1
+apiVersion: v2
 kind: Service
 metadata:
   name: loans
